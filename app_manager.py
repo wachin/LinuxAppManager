@@ -1,13 +1,22 @@
 import subprocess
+import tempfile
+import os
 import tkinter as tk
 from tkinter import messagebox
 
 def get_mime_type(extension):
-    # Crear un archivo temporal para obtener el tipo MIME
-    with open(f'temp.{extension}', 'w') as temp_file:
-        pass
-    # Obtener el tipo MIME
-    mime_type = subprocess.getoutput(f'xdg-mime query filetype temp.{extension}')
+    # Crear un archivo temporal en la carpeta del sistema
+    with tempfile.NamedTemporaryFile(suffix=f".{extension}", delete=False) as temp_file:
+        temp_filename = temp_file.name
+        temp_file.write(b"temporal content")  # Escribir contenido al archivo temporal
+
+    try:
+        # Obtener el tipo MIME
+        mime_type = subprocess.getoutput(f'xdg-mime query filetype {temp_filename}')
+    finally:
+        # Eliminar el archivo temporal
+        os.remove(temp_filename)
+
     return mime_type
 
 def get_applications(mime_type):
@@ -25,12 +34,12 @@ def search_apps():
     if not extension:
         messagebox.showerror("Error", "Por favor, ingrese una extensión de archivo.")
         return
-    
+
     mime_type = get_mime_type(extension)
     if not mime_type:
         messagebox.showerror("Error", f"No se encontró el tipo MIME para .{extension}")
         return
-    
+
     apps = get_applications(mime_type)
     listbox_apps.delete(0, tk.END)
     if apps:
@@ -44,7 +53,7 @@ def set_default():
     if not selection:
         messagebox.showerror("Error", "Por favor, seleccione una aplicación.")
         return
-    
+
     selected_app = listbox_apps.get(selection[0])
     extension = entry_extension.get().strip()
     mime_type = get_mime_type(extension)
