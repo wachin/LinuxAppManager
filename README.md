@@ -1,4 +1,5 @@
 # LinuxAppManager
+Necesitaba yo un programa que me muestre únicamente los programas que pueden abrir una extensión de archivo y que me permita seleccionar una de ellas y ponerla como aplicación para abrir por defecto, esta es mi creación.
 
 ### **Manual de Instalación y Uso de LinuxAppManager**
 
