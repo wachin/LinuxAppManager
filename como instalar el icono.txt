@@ -1,4 +1,0 @@
-
-mkdir -p ~/.local/share/icons/
-cp src/appmanager.png ~/.local/share/icons/appmanager.png
-
