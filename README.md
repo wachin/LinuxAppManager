@@ -36,16 +36,17 @@ Para ejecutar el programa, necesitas tener instalados los siguientes paquetes en
 
 2. **Accede al directorio del proyecto**  
    Navega al directorio del proyecto:  
+   
    ```bash
    cd LinuxAppManager
    ```
-
+   
 3. **(Opcional) Instala el ícono para `appmanager_v2.py`**  
    Si deseas usar la versión con ícono, necesitas copiar el archivo del ícono a la ubicación estándar del sistema:  
    ```bash
-   cp src/appmanager.png.png ~/.local/share/icons/appmanager.png
+   cp src/appmanager.png ~/.local/share/icons/appmanager.png
    ```
-También puedes copiarlo manualmente con un administrador de archivos
+   También puedes copiarlo manualmente con un administrador de archivos
 
 ---
 
