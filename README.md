@@ -42,7 +42,16 @@ Para ejecutar el programa, necesitas tener instalados los siguientes paquetes en
    ```
    
 3. **(Opcional) Instala el ícono para `appmanager_v2.py`**  
-   Si deseas usar la versión con ícono, necesitas copiar el archivo del ícono a la ubicación estándar del sistema:  
+   Si deseas usar la versión con ícono, necesitas copiar el archivo del ícono a la ubicación estándar del sistema  
+   
+   Primero crea el directorio de los iconos y si ya estuviera creado quedará así como está:
+   
+   ```
+   mkdir -p ~/.local/share/icons/
+   ```
+   
+   Ahora si instala el icono:
+   
    ```bash
    cp src/appmanager.png ~/.local/share/icons/appmanager.png
    ```
