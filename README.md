@@ -65,7 +65,7 @@ Para ejecutar el programa, necesitas tener instalados los siguientes paquetes en
 
 1. Ejecuta el programa con:  
    ```bash
-   python3 appmanager.py
+   python3 app_manager.py
    ```
 2. Esta versión no requiere la instalación de un ícono adicional.
 
