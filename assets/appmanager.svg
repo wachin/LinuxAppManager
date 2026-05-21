@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Fondo circular con gradiente -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0056b3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Círculo de fondo -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" />
+
+  <!-- Documento central -->
+  <rect x="176" y="100" width="160" height="200" rx="10" fill="#ffffff" />
+
+  <!-- Líneas del documento -->
+  <rect x="196" y="130" width="120" height="12" rx="2" fill="#4a90e2" />
+  <rect x="196" y="155" width="120" height="12" rx="2" fill="#4a90e2" />
+  <rect x="196" y="180" width="80" height="12" rx="2" fill="#4a90e2" />
+
+  <!-- Icono de engranaje (configuración) -->
+  <circle cx="256" cy="380" r="50" fill="#ffffff" />
+  <circle cx="256" cy="380" r="30" fill="#4a90e2" />
+  <rect x="246" y="320" width="20" height="30" fill="#ffffff" />
+  <rect x="246" y="410" width="20" height="30" fill="#ffffff" />
+  <rect x="196" y="370" width="30" height="20" fill="#ffffff" />
+  <rect x="286" y="370" width="30" height="20" fill="#ffffff" />
+
+  <!-- Flechas de gestión -->
+  <path d="M 100 200 L 150 200 L 130 180" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 100 200 L 150 200 L 130 220" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+
+  <path d="M 412 200 L 362 200 L 382 180" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 412 200 L 362 200 L 382 220" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

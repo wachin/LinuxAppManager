@@ -64,6 +64,15 @@ def set_default():
 root = tk.Tk()
 root.title("Gestor de Aplicaciones por Extensión de Archivo")
 
+# Ruta al ícono (ajusta según la ubicación real)
+icon_path = os.path.expanduser("~/.local/share/icons/appmanager.png")
+
+# Establecer el ícono
+if os.path.exists(icon_path):
+    root.iconphoto(True, tk.PhotoImage(file=icon_path))
+else:
+    print(f"Advertencia: El ícono no se encontró en {icon_path}")
+
 # Etiqueta y entrada para la extensión del archivo
 label_extension = tk.Label(root, text="Extensión de archivo:")
 label_extension.pack(pady=5)
