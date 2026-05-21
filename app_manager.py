@@ -5,10 +5,52 @@ import os
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, 
-    QMessageBox, QTabWidget, QComboBox
+    QMessageBox, QTabWidget, QComboBox, QDialog
 )
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import Qt, QTranslator, QLocale, QLibraryInfo
+
+class AboutDialog(QDialog):
+    def __init__(self, parent=None, icon_pixmap=None):
+        super().__init__(parent)
+        self.setWindowTitle(self.tr("About Linux App Manager"))
+        self.setFixedSize(450, 250)
+        
+        layout = QHBoxLayout(self)
+        
+        # Left side: Icon
+        icon_label = QLabel()
+        if icon_pixmap and not icon_pixmap.isNull():
+            scaled_pixmap = icon_pixmap.scaled(128, 128, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            icon_label.setPixmap(scaled_pixmap)
+        icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(icon_label)
+        
+        # Right side: Text info
+        text_widget = QWidget()
+        text_layout = QVBoxLayout(text_widget)
+        
+        title = QLabel("Linux App Manager")
+        title.setStyleSheet("font-size: 18pt; font-weight: bold;")
+        
+        description = QLabel(self.tr("A simple utility to manage default applications and file associations on Linux systems."))
+        description.setWordWrap(True)
+        
+        info = QLabel(
+            f"<b>{self.tr('Developer')}:</b> Washington Indacochea Delgado<br>"
+            f"<b>{self.tr('Email')}:</b> <a href='mailto:linuxfrontier@proton.me'>linuxfrontier@proton.me</a><br>"
+            f"<b>{self.tr('License')}:</b> GPL3<br>"
+            f"<b>{self.tr('Technologies')}:</b> Python, PyQt6, XDG Utils"
+        )
+        info.setOpenExternalLinks(True)
+        info.setWordWrap(True)
+        
+        text_layout.addWidget(title)
+        text_layout.addWidget(description)
+        text_layout.addWidget(info)
+        text_layout.addStretch()
+        
+        layout.addWidget(text_widget, 1)
 
 class AppManager(QMainWindow):
     def __init__(self):
@@ -57,7 +99,18 @@ class AppManager(QMainWindow):
     def setup_extension_tab(self):
         layout = QVBoxLayout(self.tab_extension)
         
-        layout.addWidget(QLabel(self.tr("Enter file extension (e.g. pdf, txt):")))
+        # Header with About button
+        header_layout = QHBoxLayout()
+        header_layout.addWidget(QLabel(self.tr("Enter file extension (e.g. pdf, txt):")))
+        header_layout.addStretch()
+        self.button_about = QPushButton()
+        self.button_about.setIcon(self.windowIcon())
+        self.button_about.setFixedSize(30, 30)
+        self.button_about.setToolTip(self.tr("About"))
+        self.button_about.clicked.connect(self.show_about)
+        header_layout.addWidget(self.button_about)
+        layout.addLayout(header_layout)
+
         self.entry_extension = QLineEdit()
         self.entry_extension.setPlaceholderText(self.tr("e.g. pdf"))
         self.entry_extension.returnPressed.connect(self.search_apps_extension)
@@ -143,6 +196,15 @@ class AppManager(QMainWindow):
             cmd += f' {subproperty}'
         cmd += f' {value}'
         subprocess.run(cmd, shell=True)
+
+    def show_about(self):
+        icon_path = os.path.expanduser("~/.local/share/icons/appmanager.png")
+        if not os.path.exists(icon_path):
+            icon_path = os.path.join(os.path.dirname(__file__), "assets", "appmanager.svg")
+        
+        pixmap = QPixmap(icon_path)
+        dialog = AboutDialog(self, pixmap)
+        dialog.exec()
 
     def search_apps_extension(self):
         extension = self.entry_extension.text().strip()

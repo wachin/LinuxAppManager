@@ -1,7 +1,7 @@
 Source: linux-app-manager
 Section: utils
 Priority: optional
-Maintainer: wachin <wachin@example.com>
+Maintainer: Washington Indacochea Delgado <linuxfrontier@proton.me>
 Build-Depends: debhelper-compat (= 13), python3-all, python3-setuptools, pyqt6-dev-tools
 Standards-Version: 4.6.2
 Homepage: https://github.com/wachin/LinuxAppManager

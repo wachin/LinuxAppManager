@@ -17,9 +17,10 @@ setup(
     package_data={
         "": ["assets/*", "translations/*.qm"],
     },
-    author="wachin",
+    author="Washington Indacochea Delgado",
+    author_email="linuxfrontier@proton.me",
     description="A simple application to manage default file handlers in Linux",
-    license="MIT",
+    license="GPL3",
     keywords="linux xdg mime application manager",
     url="https://github.com/wachin/LinuxAppManager",
 )
