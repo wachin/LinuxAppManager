@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Linux App Manager
+Comment=Manage default applications and file associations
+Exec=linux-app-manager
+Icon=appmanager
+Terminal=false
+Type=Application
+Categories=System;Settings;
+Keywords=default;applications;mime;handler;
