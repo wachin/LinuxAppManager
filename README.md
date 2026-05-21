@@ -18,10 +18,11 @@ Para ejecutar el programa, necesitas tener instalados los siguientes paquetes en
    sudo apt install python3
    ```
 
-2. **Tkinter (librería para interfaces gráficas) y git**  
-   Tkinter es necesario para ejecutar la interfaz gráfica del programa y git para clonarlo:  
+2. **PyQt6 (librería para interfaces gráficas) y git**  
+   PyQt6 es necesario para ejecutar la interfaz gráfica del programa y git para clonarlo:  
    ```bash
-   sudo apt install python3-tk git
+   pip install PyQt6
+   sudo apt install git
    ```
 
 ---
@@ -41,44 +42,28 @@ Para ejecutar el programa, necesitas tener instalados los siguientes paquetes en
    cd LinuxAppManager
    ```
    
-3. **(Opcional) Instala el ícono para `appmanager_v2.py`**  
-   Si deseas usar la versión con ícono, necesitas copiar el archivo del ícono a la ubicación estándar del sistema  
-   
-   Primero crea el directorio de los iconos y si ya estuviera creado quedará así como está:
-   
-   ```
-   mkdir -p ~/.local/share/icons/
-   ```
-   
-   Ahora si instala el icono:
+3. **(Opcional) Instala el ícono para `app_manager.py`**  
+   Si deseas usar el ícono, necesitas copiar el archivo del ícono a la ubicación estándar del sistema:  
    
    ```bash
-   cp src/appmanager.png ~/.local/share/icons/appmanager.png
+   mkdir -p ~/.local/share/icons/
+   cp assets/appmanager.svg ~/.local/share/icons/appmanager.png
    ```
-   También puedes copiarlo manualmente con un administrador de archivos
+   También puedes copiarlo manualmente con un administrador de archivos.
 
 ---
 
 ## **Uso del Programa**
 
-### **Versión sin ícono (`appmanager.py`)**
+1. Instala las dependencias:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1. Ejecuta el programa con:  
+2. Ejecuta el programa con:  
    ```bash
    python3 app_manager.py
    ```
-2. Esta versión no requiere la instalación de un ícono adicional.
-
----
-
-### **Versión con ícono (`appmanager_v2.py`)**
-
-1. Asegúrate de haber instalado el ícono siguiendo los pasos de instalación.  
-2. Ejecuta el programa con:  
-   ```bash
-   python3 appmanager_v2.py
-   ```
-3. Si el ícono no se muestra, verifica que el archivo `appmanager.png` esté en la ruta `~/.local/share/icons/`.
 
 
 ![20241115-112239](vx_images/403303311-AppManager.webp)
