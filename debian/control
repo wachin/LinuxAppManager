@@ -1,0 +1,15 @@
+Source: linux-app-manager
+Section: utils
+Priority: optional
+Maintainer: wachin <wachin@example.com>
+Build-Depends: debhelper-compat (= 13), python3-all, python3-setuptools, pyqt6-dev-tools
+Standards-Version: 4.6.2
+Homepage: https://github.com/wachin/LinuxAppManager
+
+Package: linux-app-manager
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}, python3-pyqt6, xdg-utils
+Description: Simple application to manage default file handlers in Linux
+ LinuxAppManager allows users to easily set default applications for 
+ specific file extensions and common system categories like Web Browsers, 
+ File Managers, and Text Editors.
