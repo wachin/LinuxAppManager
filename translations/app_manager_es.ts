@@ -77,6 +77,11 @@
       <translation>Reproductor de Audio</translation>
     </message>
     <message>
+      <location filename="../app_manager.py" line="68" />
+      <source>Terminal Emulator</source>
+      <translation>Emulador de Terminal</translation>
+    </message>
+    <message>
       <location filename="../app_manager.py" line="70" />
       <source>Linux App Manager</source>
       <translation>Gestor de Aplicaciones Linux</translation>

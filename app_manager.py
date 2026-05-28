@@ -65,6 +65,7 @@ class AppManager(QMainWindow):
             self.tr("Image Viewer"): {"type": "mime", "value": "image/jpeg"},
             self.tr("Video Player"): {"type": "mime", "value": "video/mp4"},
             self.tr("Audio Player"): {"type": "mime", "value": "audio/mpeg"},
+            self.tr("Terminal Emulator"): {"type": "category", "value": "TerminalEmulator"},
         }
 
         self.setWindowTitle(self.tr("Linux App Manager"))
@@ -181,6 +182,57 @@ class AppManager(QMainWindow):
                 applications.update(output.splitlines())
         return sorted(list(applications))
 
+    def get_applications_by_category(self, category):
+        """Busca aplicaciones por categoría en sus archivos .desktop"""
+        dirs = [
+            "/usr/share/applications/*.desktop",
+            os.path.expanduser("~/.local/share/applications/*.desktop")
+        ]
+        applications = set()
+        for d in dirs:
+            output = subprocess.getoutput(f'grep -l "Categories=.*{category}" {d} 2>/dev/null')
+            if output:
+                applications.update(output.splitlines())
+        return sorted(list(applications))
+
+    def get_terminal_desktop_from_exec(self, exec_path):
+        """Obtiene el archivo .desktop correspondiente a un ejecutable"""
+        # Manejar wrappers comunes
+        exec_path = exec_path.replace('.wrapper', '')
+        exec_name = os.path.basename(exec_path).split()[0]
+        
+        # Si es un wrapper de xfce4, usar el comando base
+        if 'wrapper' in exec_name:
+            exec_name = exec_name.replace('.wrapper', '')
+        
+        # Buscar archivos .desktop que tengan ese exec
+        dirs = [
+            "/usr/share/applications/*.desktop",
+            os.path.expanduser("~/.local/share/applications/*.desktop")
+        ]
+        candidates = []
+        for d in dirs:
+            # Buscar tanto en Exec como en TryExec
+            output = subprocess.getoutput(f'grep -l -E "Exec=.*{exec_name}|TryExec=.*{exec_name}" {d} 2>/dev/null')
+            if output:
+                files = output.splitlines()
+                for f in files:
+                    # Verificar si tiene la categoría TerminalEmulator
+                    cat_check = subprocess.getoutput(f'grep "Categories=.*TerminalEmulator" {f} 2>/dev/null')
+                    if cat_check:
+                        candidates.append(f)
+                    elif not candidates:
+                        # Si no encontramos ninguno con TerminalEmulator, usar el primero
+                        candidates.append(f)
+        
+        # Priorizar archivos que no sean de configuración
+        for f in candidates:
+            basename = os.path.basename(f)
+            if 'settings' not in basename.lower() and 'preferences' not in basename.lower():
+                return basename
+        
+        return candidates[0] if candidates else ""
+
     def set_default_application(self, mime_type, app):
         subprocess.run(f'xdg-mime default {app} {mime_type}', shell=True)
 
@@ -259,6 +311,14 @@ class AppManager(QMainWindow):
         if config["type"] == "mime":
             current = subprocess.getoutput(f'xdg-mime query default {config["value"]}')
             mime_type = config["value"]
+        elif config["type"] == "category":
+            # Para categorías, obtenemos el actual desde update-alternatives si está disponible
+            if config["value"] == "TerminalEmulator":
+                output = subprocess.getoutput('readlink -f /usr/bin/x-terminal-emulator')
+                if output:
+                    # Obtener el nombre del archivo desktop correspondiente
+                    current = self.get_terminal_desktop_from_exec(output)
+            apps = self.get_applications_by_category(config["value"])
         else:
             current = self.get_xdg_setting(config["value"], config.get("sub"))
             mime_map = {
@@ -267,10 +327,14 @@ class AppManager(QMainWindow):
             }
             mime_type = mime_map.get(config["value"], "text/plain")
 
-        self.label_current_default.setText(self.tr("Current: {0}").format(current if current else self.tr("Not defined")))
+        if config["type"] != "category":
+            self.label_current_default.setText(self.tr("Current: {0}").format(current if current else self.tr("Not defined")))
 
-        # Load available apps
-        apps = self.get_applications(mime_type)
+            # Load available apps
+            apps = self.get_applications(mime_type)
+        else:
+            self.label_current_default.setText(self.tr("Current: {0}").format(current if current else self.tr("Not defined")))
+        
         if apps:
             for app_path in apps:
                 app_name = os.path.basename(app_path)
@@ -302,6 +366,10 @@ class AppManager(QMainWindow):
         try:
             if config["type"] == "mime":
                 self.set_default_application(config["value"], app_name)
+            elif config["type"] == "category":
+                # Para terminal emulators, usar update-alternatives
+                if config["value"] == "TerminalEmulator":
+                    self.set_terminal_default(app_path)
             else:
                 self.set_xdg_setting(config["value"], app_name, config.get("sub"))
             
@@ -309,6 +377,30 @@ class AppManager(QMainWindow):
             self.load_category_apps(category_name)
         except Exception as e:
             QMessageBox.critical(self, self.tr("Error"), self.tr("Error setting default: {0}").format(str(e)))
+
+    def set_terminal_default(self, app_desktop_path):
+        """Establece el terminal predeterminado usando update-alternatives"""
+        # Obtener el comando Exec del archivo .desktop
+        exec_cmd = ""
+        try:
+            with open(app_desktop_path, 'r') as f:
+                for line in f:
+                    if line.startswith("Exec="):
+                        exec_cmd = line[5:].strip().split()[0]
+                        break
+        except Exception as e:
+            raise Exception(f"Could not read desktop file: {str(e)}")
+        
+        if not exec_cmd:
+            raise Exception("Could not find Exec command in desktop file")
+        
+        # Usar update-alternatives para establecer el terminal predeterminado
+        result = subprocess.run(f'sudo update-alternatives --set x-terminal-emulator {exec_cmd}', shell=True, capture_output=True, text=True)
+        if result.returncode != 0:
+            # Intentar sin sudo si eso falla
+            result = subprocess.run(f'update-alternatives --set x-terminal-emulator {exec_cmd}', shell=True, capture_output=True, text=True)
+            if result.returncode != 0:
+                raise Exception(f"Failed to set terminal: {result.stderr}")
 
 def main():
     app = QApplication(sys.argv)

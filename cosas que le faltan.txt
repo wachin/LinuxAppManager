@@ -1,0 +1,55 @@
+
+
+
+LinuxAppManager.- Es un programa que estoy desarrollando, a este programa le falta el poder administrar en la pestaña "Aplicaciones Predeterminadas" en los programas por defecto a:
+
+Emulador de terminal
+
+
+## Investigación chatgpt
+
+En Linux no hay un único comando universal que liste “emuladores de terminal”, porque cada distribución los instala con nombres distintos. Pero estos comandos suelen funcionar muy bien:
+
+```bash
+compgen -c | grep -Ei 'terminal|xterm|kitty|alacritty|konsole|gnome-terminal|xfce4-terminal|lxterminal|mate-terminal|tilix|terminator|urxvt|st$|wezterm'
+```
+
+Eso busca comandos instalados relacionados con terminales.
+
+También puedes usar:
+
+```bash
+update-alternatives --list x-terminal-emulator
+```
+
+En distribuciones basadas en Debian como Debian, MX Linux o Ubuntu.
+Te mostrará los terminales registrados en el sistema como “emulador de terminal”.
+
+Por ejemplo podría mostrar:
+
+```text
+/usr/bin/xfce4-terminal.wrapper
+/usr/bin/konsole
+/usr/bin/lxterminal
+/usr/bin/xterm
+```
+
+Y para ver cuál es el predeterminado:
+
+```bash
+x-terminal-emulator
+```
+
+o:
+
+```bash
+readlink -f /etc/alternatives/x-terminal-emulator
+```
+
+En tu caso, usando MX Linux 23 basado en Debian 12, el más útil probablemente sea:
+
+```bash
+update-alternatives --list x-terminal-emulator
+```
+
+
