@@ -20,6 +20,7 @@
     <message><source>Image Viewer</source><translation>图片查看器</translation></message>
     <message><source>Video Player</source><translation>视频播放器</translation></message>
     <message><source>Audio Player</source><translation>音频播放器</translation></message>
+    <message><source>Terminal Emulator</source><translation>终端模拟器</translation></message>
     <message><source>Linux App Manager</source><translation>Linux 应用管理器</translation></message>
     <message><source>By Extension</source><translation>按扩展名</translation></message>
     <message><source>Default Applications</source><translation>默认应用程序</translation></message>

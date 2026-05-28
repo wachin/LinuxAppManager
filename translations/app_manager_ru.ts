@@ -20,6 +20,7 @@
     <message><source>Image Viewer</source><translation>Просмотр изображений</translation></message>
     <message><source>Video Player</source><translation>Видеоплеер</translation></message>
     <message><source>Audio Player</source><translation>Аудиоплеер</translation></message>
+    <message><source>Terminal Emulator</source><translation>Эмулятор терминала</translation></message>
     <message><source>Linux App Manager</source><translation>Linux App Manager</translation></message>
     <message><source>By Extension</source><translation>По расширению</translation></message>
     <message><source>Default Applications</source><translation>Приложения по умолчанию</translation></message>

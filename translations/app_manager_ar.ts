@@ -20,6 +20,7 @@
     <message><source>Image Viewer</source><translation>عارض الصور</translation></message>
     <message><source>Video Player</source><translation>مشغل الفيديو</translation></message>
     <message><source>Audio Player</source><translation>مشغل الصوت</translation></message>
+    <message><source>Terminal Emulator</source><translation>محاكي الطرفية</translation></message>
     <message><source>Linux App Manager</source><translation>مدير تطبيقات لينكس</translation></message>
     <message><source>By Extension</source><translation>حسب الامتداد</translation></message>
     <message><source>Default Applications</source><translation>التطبيقات الافتراضية</translation></message>

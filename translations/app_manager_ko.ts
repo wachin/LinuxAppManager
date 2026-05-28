@@ -20,6 +20,7 @@
     <message><source>Image Viewer</source><translation>이미지 뷰어</translation></message>
     <message><source>Video Player</source><translation>비디오 플레이어</translation></message>
     <message><source>Audio Player</source><translation>오디오 플레이어</translation></message>
+    <message><source>Terminal Emulator</source><translation>터미널 에뮬레이터</translation></message>
     <message><source>Linux App Manager</source><translation>Linux 앱 관리자</translation></message>
     <message><source>By Extension</source><translation>확장자별</translation></message>
     <message><source>Default Applications</source><translation>기본 애플리케이션</translation></message>

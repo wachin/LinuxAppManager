@@ -20,6 +20,7 @@
     <message><source>Image Viewer</source><translation>Bildvisare</translation></message>
     <message><source>Video Player</source><translation>Videospelare</translation></message>
     <message><source>Audio Player</source><translation>Ljudspelare</translation></message>
+    <message><source>Terminal Emulator</source><translation>Terminalemulator</translation></message>
     <message><source>Linux App Manager</source><translation>Linux App Manager</translation></message>
     <message><source>By Extension</source><translation>Efter filtillägg</translation></message>
     <message><source>Default Applications</source><translation>Standardprogram</translation></message>

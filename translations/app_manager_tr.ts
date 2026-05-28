@@ -20,6 +20,7 @@
     <message><source>Image Viewer</source><translation>Resim Görüntüleyici</translation></message>
     <message><source>Video Player</source><translation>Video Oynatıcı</translation></message>
     <message><source>Audio Player</source><translation>Ses Oynatıcı</translation></message>
+    <message><source>Terminal Emulator</source><translation>Terminal Emülatörü</translation></message>
     <message><source>Linux App Manager</source><translation>Linux Uygulama Yöneticisi</translation></message>
     <message><source>By Extension</source><translation>Uzantıya Göre</translation></message>
     <message><source>Default Applications</source><translation>Varsayılan Uygulamalar</translation></message>

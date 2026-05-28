@@ -20,6 +20,7 @@
     <message><source>Image Viewer</source><translation>Visualizador de Imagens</translation></message>
     <message><source>Video Player</source><translation>Reprodutor de Vídeo</translation></message>
     <message><source>Audio Player</source><translation>Reprodutor de Áudio</translation></message>
+    <message><source>Terminal Emulator</source><translation>Emulador de Terminal</translation></message>
     <message><source>Linux App Manager</source><translation>Linux App Manager</translation></message>
     <message><source>By Extension</source><translation>Por Extensão</translation></message>
     <message><source>Default Applications</source><translation>Aplicativos Padrão</translation></message>
