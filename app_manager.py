@@ -2,6 +2,7 @@ import sys
 import subprocess
 import tempfile
 import os
+import argparse
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, 
@@ -413,21 +414,83 @@ class AppManager(QMainWindow):
                 f"Terminal alternative verification failed: expected {terminal_path}, got {current}"
             )
 
-def main():
-    app = QApplication(sys.argv)
-    
-    # Translation setup
-    translator = QTranslator()
-    # Try multiple paths for translation files (local dev and system-wide)
-    search_paths = [
+def get_translation_paths():
+    return [
         os.path.join(os.path.dirname(__file__), "translations"),
         "/usr/share/linux-app-manager/translations"
     ]
-    for path in search_paths:
+
+
+def language_candidates(language):
+    normalized = language.replace("-", "_").split(".")[0]
+    candidates = [normalized]
+    if "_" in normalized:
+        candidates.append(normalized.split("_", 1)[0])
+    return list(dict.fromkeys(candidates))
+
+
+def parse_arguments(argv):
+    parser = argparse.ArgumentParser(description="Linux App Manager")
+    parser.add_argument(
+        "--no-translation",
+        action="store_true",
+        help="Do not load a translation file; use the original English interface."
+    )
+    parser.add_argument(
+        "--qm",
+        "--translation",
+        dest="qm_file",
+        help="Load a specific Qt .qm translation file."
+    )
+    parser.add_argument(
+        "--lang",
+        "--language",
+        dest="language",
+        help="Load a bundled translation by code, for example es, fr, pt_BR, zh_CN."
+    )
+    return parser.parse_known_args(argv[1:])
+
+
+def install_translation(app, args):
+    translator = QTranslator()
+
+    if args.no_translation:
+        return None
+
+    if args.qm_file:
+        qm_file = os.path.abspath(args.qm_file)
+        if translator.load(qm_file):
+            app.installTranslator(translator)
+            return translator
+        print(f"Warning: could not load translation file: {args.qm_file}", file=sys.stderr)
+        return None
+
+    if args.language:
+        if args.language.lower().replace("-", "_").startswith("en"):
+            return None
+        for path in get_translation_paths():
+            for code in language_candidates(args.language):
+                qm_file = os.path.join(path, f"app_manager_{code}.qm")
+                if os.path.exists(qm_file) and translator.load(qm_file):
+                    app.installTranslator(translator)
+                    return translator
+        print(f"Warning: no bundled translation found for language: {args.language}", file=sys.stderr)
+        return None
+
+    # Try multiple paths for translation files (local dev and system-wide)
+    for path in get_translation_paths():
         if translator.load(QLocale(), "app_manager", "_", path):
             app.installTranslator(translator)
-            break
-    
+            return translator
+    return None
+
+
+def main():
+    args, qt_args = parse_arguments(sys.argv)
+    app = QApplication([sys.argv[0], *qt_args])
+    # Keep a reference while the Qt event loop is running.
+    translator = install_translation(app, args)
+
     window = AppManager()
     window.show()
     sys.exit(app.exec())
